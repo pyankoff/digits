@@ -134,7 +134,7 @@ class neuralNetwork(object):
 
         self.nn_params = optimize.fmin_cg(self.nnCostFunction, self.nn_params, 
                                 fprime=self.nnGrad, retall=0,
-                                maxiter=100)
+                                maxiter=400)
 
         Theta1 = self.nn_params[0:(self.hidden_layer_size * 
                           (self.input_layer_size + 1))].reshape(
@@ -144,8 +144,8 @@ class neuralNetwork(object):
                            (self.input_layer_size + 1):].reshape(
                            self.out_layer_size, (self.hidden_layer_size + 1), order='F')
 
-        np.savetxt('digits\\T1_out.csv', Theta1, delimiter=',')
-        np.savetxt('digits\\T2_out.csv', Theta2, delimiter=',')
+        np.savetxt('digits/T1_out.csv', Theta1, delimiter=',')
+        np.savetxt('digits/T2_out.csv', Theta2, delimiter=',')
         
 
 
@@ -160,7 +160,7 @@ class neuralNetwork(object):
 
         a3 = self.forwardProp(Theta1, Theta2, self.X)[0]
         y_res = np.argmax(a3, axis=1)
-        np.savetxt('digits\\y_out.csv', y_res, delimiter=',')
+        np.savetxt('digits/y_out.csv', y_res, delimiter=',')
         #print (self.y==y_res).sum()/self.m
         print float((y_res==self.y).sum())/self.m
 
@@ -174,10 +174,10 @@ class neuralNetwork(object):
                            (self.input_layer_size + 1):].reshape(
                            self.out_layer_size, (self.hidden_layer_size + 1), order='F')
 
-        while raw_input() != 'k':
-            i = int(np.random.random(1) * 20000)
+        while raw_input() != 'q':
+            i = int(np.random.random(1) * 5000)
             res = np.argmax(self.forwardProp(Theta1, Theta2, self.X[i,:].reshape(
-                (1, self.input_layer_size)))[0])
+                    (1, self.input_layer_size)))[0])
             plt.imshow(self.X[i,:].reshape((28,28)), cmap=plt.cm.gray)
             plt.title("%d" % res)
             plt.show()
